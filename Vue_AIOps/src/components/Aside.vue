@@ -1,0 +1,71 @@
+<template>
+    <el-menu :default-openeds="opens" style="min-height: 100%; overflow-x: hidden"
+             background-color="rgb(48, 65, 86)"
+             text-color="#fff"
+             active-text-color="#ffd04b"
+             :collapse-transition="false"
+             :collapse="isCollapse"
+             router
+    >
+      <div style="height: 60px; line-height: 60px; text-align: center">
+<!--        <img src="../assets/svg/魔方-copy-copy.svg" alt="" style="width: 20px; position: relative; top: -2px">-->
+        <b style="color: white; margin-left: 2px; font-size:13px" v-show="logoTextShow">算法管道模型建模与部署调度平台</b>
+      </div>
+      <div v-for="item in menus" :key="item.id">
+        <div v-if="item.path">
+          <el-menu-item :index="item.path">
+            <i :class="item.icon"></i>
+            <span slot="title">{{ item.name }}</span>
+          </el-menu-item>
+        </div>
+        <div v-else>
+          <el-submenu :index="item.id + ''">
+            <template slot="title">
+              <i :class="item.icon"></i>
+              <span slot="title">{{ item.name }}</span>
+            </template>
+            <div  v-for="subItem in item.children" :key="subItem.id">
+              <el-menu-item :index="subItem.path">
+                <i :class="subItem.icon"></i>
+                <span slot="title">{{ subItem.name }}</span>
+              </el-menu-item>
+            </div>
+          </el-submenu>
+        </div>
+      </div>
+    </el-menu>
+</template>
+
+<script>
+export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Aside",
+  props: {
+    isCollapse: Boolean,
+    logoTextShow: Boolean,
+  },
+  data() {
+    return {
+      menus: sessionStorage.getItem("menus") ? JSON.parse(sessionStorage.getItem("menus")) : [],
+      opens: sessionStorage.getItem("menus") ? JSON.parse(sessionStorage.getItem("menus")).map(v => v.id + '') : [],
+    }
+  }
+}
+</script>
+
+<style scoped>
+.el-menu-item.is-active {
+  background-color: rgb(38, 52, 69) !important;
+}
+.el-menu-item:hover {
+  background-color: rgb(38, 52, 69) !important;
+}
+
+.el-submenu__title:hover {
+  background-color: rgb(38, 52, 69) !important;
+}
+/*解决收缩菜单文字不消失问题*/
+.el-menu--collapse span {
+  visibility: hidden;
+}
+</style>

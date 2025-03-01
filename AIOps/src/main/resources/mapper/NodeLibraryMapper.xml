@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.aiops.mapper.NodeLibraryMapper">
+
+    <select id="getParamValueByParamName" parameterType="map" resultType="String">
+        SELECT
+            JSON_UNQUOTE(JSON_EXTRACT(
+                    param_values,
+                    CONCAT('$[',
+                           CAST(
+                                   SUBSTRING_INDEX(JSON_UNQUOTE(JSON_SEARCH(param_names, 'one', #{paramName})), '[', -1) AS UNSIGNED
+                           ),
+                           ']')
+                         )) AS param_value
+        FROM node_library
+        WHERE node_name = #{nodeName};
+    </select>
+
+    <select id="getNodeParamList" resultMap="nodeParamList">
+        select * from node_library
+        <where>
+            <if test="nodeName != null and nodeName != ''">
+                and node_library.node_name like concat('%', #{nodeName} ,'%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="nodeParamList" type="com.zxy.aiops.entity.NodeLibrary">
+        <!-- 转换JSONObject-->
+        <result column="node_name"
+                property="nodeName"
+                 />
+        <!-- 转换JSONArray-->
+        <result column="param_names"
+                property="paramNames"
+                jdbcType="OTHER" javaType="com.alibaba.fastjson.JSONArray"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler" />
+        <result column="param_names_zh"
+                property="paramNamesZh"
+                jdbcType="OTHER" javaType="com.alibaba.fastjson.JSONArray"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler" />
+        <result column="param_values"
+                property="paramValues"
+                jdbcType="OTHER" javaType="com.alibaba.fastjson.JSONArray"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler" />
+    </resultMap>
+</mapper>

@@ -1,0 +1,36 @@
+server:
+  #  ip: 42.192.51.139
+  ip: localhost
+  port: 9090
+file:
+  #  ip: http://42.192.51.139
+  ip: localhost
+
+files:
+  upload:
+    path: F:/AIOps/files/
+#     path: /home/files/
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/AIOps?serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #????mybatis?xml??
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
