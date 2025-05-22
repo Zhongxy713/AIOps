@@ -22,6 +22,11 @@ const routes = [
     name: '404',
     component: () => import('../views/page_404.vue')
   },
+  {
+    path: '/deploy',
+    name: 'deploy',
+    component: () => import('../views/Deploy.vue')
+  }
 ]
 
 const router = new VueRouter({

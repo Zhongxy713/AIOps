@@ -72,7 +72,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="工作流组件信息" :visible.sync="dialogFormVisible" width="40%"
+    <el-dialog title="组件详情" :visible.sync="dialogFormVisible" width="40%"
                :close-on-click-modal="false">
       <el-form :model="form">
         <el-form-item  label-width="120px">

@@ -1,8 +1,26 @@
 <template>
   <div>
+    <div style="margin: 10px 0">
+      <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search"></el-input>
+      <el-button class="ml-5" type="primary" >搜索</el-button>
+      <el-button type="warning" >重置</el-button>
+    </div>
+    <div style="margin: 10px 0">
+        <el-button type="primary" class="ml-5">上传文件 <i class="el-icon-top"></i></el-button>
+      <el-popconfirm
+          class="ml-5"
+          confirm-button-text='确定'
+          cancel-button-text='我再想想'
+          icon="el-icon-info"
+          icon-color="red"
+          title="您确定批量删除这些数据吗？"
+      >
+        <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
+      </el-popconfirm>
+    </div>
     <el-tabs v-model="activeTab" type="card">
       <el-tab-pane label="我的数据集" name="myDataSets">
-        <el-table :data="myDataSets" style="width: 100%">
+        <el-table ref="multipleTable" :data="myDataSets"  style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column prop="id" label="ID" width="100"></el-table-column>
           <el-table-column prop="name" label="名称"></el-table-column>
           <el-table-column prop="dataType" label="数据类型"></el-table-column>
@@ -31,7 +49,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="预置数据集" name="presetDataSets">
-        <el-table :data="presetDataSets" style="width: 100%">
+        <el-table ref="multipleTable" :data="presetDataSets" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column prop="id" label="ID" width="100"></el-table-column>
           <el-table-column prop="name" label="名称"></el-table-column>
           <el-table-column prop="dataType" label="数据类型"></el-table-column>
@@ -79,7 +97,8 @@ export default {
         { id: 4, name: '预置数据集4', dataType: '文本', progress: '100', labelType: '手动', status: '正常', currentVersion: 'v2.0', updateTime: '2025-02-22', description: '' },
         { id: 5, name: '预置数据集5', dataType: '图像', progress: '100', labelType: '自动', status: '正常', currentVersion: 'v2.1', updateTime: '2025-02-20', description: '' },
         { id: 6, name: '预置数据集6', dataType: '音频', progress: '100', labelType: '手动', status: '正常', currentVersion: 'v1.0', updateTime: '2025-02-18', description: '' }
-      ]
+      ],
+      multipleSelection: []
     };
   },
   methods: {
@@ -90,6 +109,9 @@ export default {
     deleteItem(row) {
       console.log('删除', row);
       // 删除功能逻辑
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     }
   }
 };

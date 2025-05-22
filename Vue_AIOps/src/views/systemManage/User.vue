@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
-      <el-table-column label="操作"  width="500" align="center">
+      <el-table-column label="操作"  width="200" align="center">
         <template slot-scope="scope">
           <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
 <!--          <el-button type="success" @click="handlePic(scope.row.id)">资源监控 <i class="el-icon-edit"></i></el-button>-->
